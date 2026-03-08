@@ -5,10 +5,9 @@ struct TunnelasApp: App {
     @StateObject private var model = AppModel.bootstrap()
 
     var body: some Scene {
-        MenuBarExtra("Tunnelas", systemImage: "point.3.connected.trianglepath.dotted") {
+        MenuBarExtra("Tunnelas", systemImage: model.snapshot.menuSummary.menuBarIconName) {
             MenuBarContentView(model: model)
         }
-        .menuBarExtraStyle(.window)
 
         Window("Logs", id: "logs") {
             LogWindowView(model: model)

@@ -128,6 +128,132 @@ public struct RuntimeSnapshot: Equatable, Sendable {
     public static let empty = RuntimeSnapshot(groups: [])
 }
 
+public struct RuntimeMenuSummary: Equatable, Sendable {
+    public let totalRules: Int
+    public let runningRules: Int
+    public let startingRules: Int
+    public let errorRules: Int
+
+    public init(totalRules: Int, runningRules: Int, startingRules: Int, errorRules: Int) {
+        self.totalRules = totalRules
+        self.runningRules = runningRules
+        self.startingRules = startingRules
+        self.errorRules = errorRules
+    }
+
+    public var statusLine: String {
+        "Running \(runningRules)/\(totalRules)  Starting \(startingRules)  Errors \(errorRules)"
+    }
+
+    public var menuBarIconName: String {
+        if errorRules > 0 {
+            return "exclamationmark.triangle.fill"
+        }
+        if startingRules > 0 {
+            return "arrow.clockwise.circle"
+        }
+        return "point.3.connected.trianglepath.dotted"
+    }
+}
+
+public extension RuntimeSnapshot {
+    var menuSummary: RuntimeMenuSummary {
+        let rules = groups.flatMap(\.rules)
+        return RuntimeMenuSummary(
+            totalRules: rules.count,
+            runningRules: rules.filter { $0.state.status == .running }.count,
+            startingRules: rules.filter { $0.state.status == .starting }.count,
+            errorRules: rules.filter { $0.state.status == .error }.count
+        )
+    }
+}
+
+public extension GroupSnapshot {
+    var runningRuleCount: Int {
+        rules.filter { $0.state.status == .running }.count
+    }
+
+    var startingRuleCount: Int {
+        rules.filter { $0.state.status == .starting }.count
+    }
+
+    var errorRuleCount: Int {
+        rules.filter { $0.state.status == .error }.count
+    }
+
+    var hasEnabledRules: Bool {
+        rules.contains(where: \.isEnabled)
+    }
+
+    var canStartAnyRule: Bool {
+        rules.contains(where: \.canStartFromMenu)
+    }
+
+    var canStopAnyRule: Bool {
+        rules.contains(where: \.canStopFromMenu)
+    }
+
+    var menuSummaryLine: String {
+        var parts = ["\(runningRuleCount)/\(rules.count) running"]
+        if startingRuleCount > 0 {
+            parts.append("\(startingRuleCount) starting")
+        }
+        if errorRuleCount > 0 {
+            parts.append("\(errorRuleCount) errors")
+        }
+        return parts.joined(separator: "  ")
+    }
+
+    var menuSymbolName: String {
+        if errorRuleCount > 0 {
+            return "exclamationmark.triangle.fill"
+        }
+        if startingRuleCount > 0 {
+            return "arrow.clockwise.circle"
+        }
+        if runningRuleCount > 0 {
+            return "play.circle.fill"
+        }
+        return "pause.circle"
+    }
+}
+
+public extension RuleSnapshot {
+    var statusText: String {
+        switch state.status {
+        case .stopped:
+            return "Stopped"
+        case .starting:
+            return "Starting"
+        case .running:
+            return "Running"
+        case .error:
+            return "Error"
+        }
+    }
+
+    var menuSymbolName: String {
+        switch state.status {
+        case .stopped:
+            return "pause.circle"
+        case .starting:
+            return "arrow.clockwise.circle"
+        case .running:
+            return "play.circle.fill"
+        case .error:
+            return "exclamationmark.triangle.fill"
+        }
+    }
+
+    var canStartFromMenu: Bool {
+        isEnabled && state.status != .running && state.status != .starting
+    }
+
+    var canStopFromMenu: Bool {
+        state.status == .running || state.status == .starting
+    }
+}
+
 public struct ExecutableCommand: Equatable, Sendable {
     public let executable: String
     public let arguments: [String]
@@ -173,4 +299,3 @@ public protocol ProcessRunning: Sendable {
 public protocol LogWriting: Sendable {
     func write(line: String) async
 }
-

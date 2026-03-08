@@ -4,6 +4,81 @@ import Testing
 
 struct TunnelRuntimeStoreTests {
     @Test
+    func runtimeMenuSummaryCountsStatuses() {
+        let snapshot = RuntimeSnapshot(groups: [
+            GroupSnapshot(
+                id: GroupKey(kind: .ssh, id: "bastion"),
+                title: "Bastion",
+                isEnabled: true,
+                rules: [
+                    menuRule(id: "db", status: .running),
+                    menuRule(id: "api", status: .starting),
+                    menuRule(id: "metrics", status: .error)
+                ]
+            ),
+            GroupSnapshot(
+                id: GroupKey(kind: .kubernetes, id: "dev"),
+                title: "Dev",
+                isEnabled: true,
+                rules: [
+                    menuRule(kind: .kubernetes, groupID: "dev", id: "web", status: .stopped)
+                ]
+            )
+        ])
+
+        let summary = snapshot.menuSummary
+
+        #expect(summary.totalRules == 4)
+        #expect(summary.runningRules == 1)
+        #expect(summary.startingRules == 1)
+        #expect(summary.errorRules == 1)
+        #expect(summary.menuBarIconName == "exclamationmark.triangle.fill")
+    }
+
+    @Test
+    func groupSummaryExposesMenuState() {
+        let group = GroupSnapshot(
+            id: GroupKey(kind: .ssh, id: "bastion"),
+            title: "Bastion",
+            isEnabled: true,
+            rules: [
+                menuRule(id: "db", status: .running),
+                menuRule(id: "api", status: .starting),
+                menuRule(id: "metrics", status: .error),
+                menuRule(id: "disabled", status: .stopped, isEnabled: false)
+            ]
+        )
+
+        #expect(group.runningRuleCount == 1)
+        #expect(group.startingRuleCount == 1)
+        #expect(group.errorRuleCount == 1)
+        #expect(group.canStartAnyRule == true)
+        #expect(group.canStopAnyRule == true)
+        #expect(group.menuSummaryLine == "1/4 running  1 starting  1 errors")
+        #expect(group.menuSymbolName == "exclamationmark.triangle.fill")
+    }
+
+    @Test
+    func ruleMenuActionsReflectStateAndEnablement() {
+        let stopped = menuRule(id: "db", status: .stopped)
+        let running = menuRule(id: "api", status: .running)
+        let starting = menuRule(id: "metrics", status: .starting)
+        let errored = menuRule(id: "job", status: .error)
+        let disabled = menuRule(id: "disabled", status: .stopped, isEnabled: false)
+
+        #expect(stopped.canStartFromMenu == true)
+        #expect(stopped.canStopFromMenu == false)
+        #expect(running.canStartFromMenu == false)
+        #expect(running.canStopFromMenu == true)
+        #expect(starting.canStartFromMenu == false)
+        #expect(starting.canStopFromMenu == true)
+        #expect(errored.canStartFromMenu == true)
+        #expect(errored.canStopFromMenu == false)
+        #expect(disabled.canStartFromMenu == false)
+        #expect(disabled.canStopFromMenu == false)
+    }
+
+    @Test
     func applyConfigurationStartsEnabledRulesOnInitialLoad() async throws {
         let runner = StubProcessRunner()
         let runtime = TunnelRuntimeStore(
@@ -290,6 +365,36 @@ private final class StubProcessRunner: ProcessRunning, @unchecked Sendable {
         if stopMode == .immediate {
             emitter.finish()
         }
+    }
+}
+
+private func menuRule(
+    kind: RuleKind = .ssh,
+    groupID: String = "bastion",
+    id: String,
+    status: RuleStatus,
+    isEnabled: Bool = true
+) -> RuleSnapshot {
+    RuleSnapshot(
+        id: RuleKey(kind: kind, groupID: groupID, ruleID: id),
+        title: id,
+        subtitle: "subtitle",
+        isEnabled: isEnabled,
+        state: menuRuleState(for: status),
+        lastLogLine: "last log"
+    )
+}
+
+private func menuRuleState(for status: RuleStatus) -> RuleRuntimeState {
+    switch status {
+    case .stopped:
+        return .stopped()
+    case .starting:
+        return .starting()
+    case .running:
+        return .running(pid: 123)
+    case .error:
+        return .failed(RuleErrorSummary(message: "failed"))
     }
 }
 

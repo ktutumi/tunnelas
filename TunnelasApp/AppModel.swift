@@ -121,6 +121,11 @@ final class AppModel: ObservableObject {
         }
     }
 
+    func selectRuleForLogs(_ key: RuleKey) {
+        selectedRuleKey = key
+        Task { await refreshLogs() }
+    }
+
     func openConfigFolder() {
         NSWorkspace.shared.open(configurationURL.deletingLastPathComponent())
     }
