@@ -56,8 +56,7 @@ struct TunnelRuntimeStoreTests {
         #expect(group.canStopAnyRule == true)
         #expect(group.menuSummaryLine == "1/4 running  1 starting  1 errors")
         #expect(group.menuSymbolName == "exclamationmark.triangle.fill")
-        #expect(group.menuStatusText == "Error")
-        #expect(group.menuStatusSymbolName == "exclamationmark.triangle.fill")
+        #expect(group.menuDisplayTitle == "Bastion [Error]")
         #expect(group.menuStatusAccessibilityLabel == "Status: Error")
     }
 
@@ -88,13 +87,13 @@ struct TunnelRuntimeStoreTests {
         let starting = menuRule(id: "metrics", status: .starting)
         let errored = menuRule(id: "job", status: .error)
 
-        #expect(stopped.menuStatusSymbolName == "xmark.circle")
+        #expect(stopped.menuDisplayTitle == "db [Stopped]")
         #expect(stopped.menuStatusAccessibilityLabel == "Status: Stopped")
-        #expect(running.menuStatusSymbolName == "checkmark.circle.fill")
+        #expect(running.menuDisplayTitle == "api [Running]")
         #expect(running.menuStatusAccessibilityLabel == "Status: Running")
-        #expect(starting.menuStatusSymbolName == "arrow.clockwise.circle")
+        #expect(starting.menuDisplayTitle == "metrics [Starting]")
         #expect(starting.menuStatusAccessibilityLabel == "Status: Starting")
-        #expect(errored.menuStatusSymbolName == "exclamationmark.triangle.fill")
+        #expect(errored.menuDisplayTitle == "job [Error]")
         #expect(errored.menuStatusAccessibilityLabel == "Status: Error")
     }
 

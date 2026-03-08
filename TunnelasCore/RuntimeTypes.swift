@@ -226,6 +226,10 @@ public extension GroupSnapshot {
         menuStatus.menuStatusAccessibilityLabel
     }
 
+    var menuDisplayTitle: String {
+        "\(title) [\(menuStatusText)]"
+    }
+
     var runningRuleCount: Int {
         rules.filter { $0.state.status == .running }.count
     }
@@ -278,6 +282,10 @@ public extension GroupSnapshot {
 public extension RuleSnapshot {
     var statusText: String {
         state.status.menuStatusText
+    }
+
+    var menuDisplayTitle: String {
+        "\(title) [\(statusText)]"
     }
 
     var menuStatusSymbolName: String {
