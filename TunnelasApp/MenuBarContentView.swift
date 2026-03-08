@@ -109,11 +109,8 @@ private struct GroupMenu: View {
                 )
             }
         } label: {
-            Label {
-                Text(group.title)
-            } icon: {
-                Image(systemName: group.menuSymbolName)
-            }
+            Text(group.menuDisplayTitle)
+                .accessibilityLabel("\(group.title), \(group.menuStatusAccessibilityLabel)")
         }
     }
 }
@@ -169,11 +166,8 @@ private struct RuleMenu: View {
                 onOpenLogs()
             }
         } label: {
-            Label {
-                Text(rule.title)
-            } icon: {
-                Image(systemName: rule.menuSymbolName)
-            }
+            Text(rule.menuDisplayTitle)
+                .accessibilityLabel("\(rule.title), \(rule.menuStatusAccessibilityLabel)")
         }
     }
 }
