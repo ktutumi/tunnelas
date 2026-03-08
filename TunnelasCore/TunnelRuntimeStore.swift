@@ -5,6 +5,7 @@ public actor TunnelRuntimeStore {
     private let processRunner: any ProcessRunning
     private let logWriter: any LogWriting
     private let logLimit: Int
+    private let shutdownWaitTimeoutNanoseconds: UInt64
 
     private var configurationIndex = ConfigurationIndex(configuration: AppConfiguration(version: 1, ssh: [], kubernetes: []))
     private var states: [RuleKey: RuleRuntimeState] = [:]
@@ -12,7 +13,6 @@ public actor TunnelRuntimeStore {
     private var sessions: [RuleKey: ManagedProcessSession] = [:]
     private var eventTasks: [RuleKey: Task<Void, Never>] = [:]
     private var stoppingRules = Set<RuleKey>()
-    private var terminationWaiters: [RuleKey: [UUID: CheckedContinuation<Void, Never>]] = [:]
     private var preSleepRunningRules = Set<RuleKey>()
     private var continuations: [UUID: AsyncStream<RuntimeSnapshot>.Continuation] = [:]
 
@@ -20,12 +20,14 @@ public actor TunnelRuntimeStore {
         commandBuilder: any CommandBuilding,
         processRunner: any ProcessRunning,
         logWriter: any LogWriting,
-        logLimit: Int = 200
+        logLimit: Int = 200,
+        shutdownWaitTimeoutNanoseconds: UInt64 = 3_000_000_000
     ) {
         self.commandBuilder = commandBuilder
         self.processRunner = processRunner
         self.logWriter = logWriter
         self.logLimit = logLimit
+        self.shutdownWaitTimeoutNanoseconds = shutdownWaitTimeoutNanoseconds
     }
 
     public func updates() -> AsyncStream<RuntimeSnapshot> {
@@ -50,6 +52,14 @@ public actor TunnelRuntimeStore {
         let changedKeys = newIndex.rulesByKey.compactMap { key, definition in
             previousIndex.rulesByKey[key] == definition ? nil : key
         }
+        let autoStartKeys: [RuleKey] = newIndex.rulesByKey.compactMap { entry in
+            let (key, definition) = entry
+            guard definition.isEnabled else { return nil }
+            guard let previousDefinition = previousIndex.rulesByKey[key] else {
+                return key
+            }
+            return previousDefinition.isEnabled ? nil : key
+        }
 
         for key in removedKeys {
             await stopRuleAndWait(key, logPrefix: "stopping")
@@ -64,7 +74,16 @@ public actor TunnelRuntimeStore {
         }
 
         for key in changedKeys where sessions[key] != nil {
-            await restartRule(key)
+            guard let definition = newIndex.rulesByKey[key] else { continue }
+            if definition.isEnabled {
+                await restartRule(key)
+            } else {
+                await stopRuleAndWait(key, logPrefix: "stopping")
+            }
+        }
+
+        for key in autoStartKeys where sessions[key] == nil {
+            await startRule(key)
         }
 
         await appendSystemLog("configuration applied")
@@ -168,7 +187,9 @@ public actor TunnelRuntimeStore {
             await requestStop(for: key, logPrefix: "stopping")
         }
         for key in activeKeys {
-            await waitForTermination(of: key)
+            let didStop = await waitForTermination(of: key, timeoutNanoseconds: shutdownWaitTimeoutNanoseconds)
+            guard !didStop else { continue }
+            await appendSystemLog("timed out stopping \(describe(key))")
         }
     }
 
@@ -193,7 +214,6 @@ public actor TunnelRuntimeStore {
             eventTasks.removeValue(forKey: key)
 
             let wasStopping = stoppingRules.remove(key) != nil
-            resumeTerminationWaiters(for: key)
             if wasStopping || exitCode == 0 {
                 states[key] = .stopped()
             } else {
@@ -255,26 +275,34 @@ public actor TunnelRuntimeStore {
     }
 
     private func waitForTermination(of key: RuleKey) async {
-        guard sessions[key] != nil else {
-            return
-        }
-
-        let identifier = UUID()
-        await withCheckedContinuation { continuation in
-            terminationWaiters[key, default: [:]][identifier] = continuation
-        }
+        _ = await waitForTermination(of: key, timeoutNanoseconds: nil)
     }
 
-    private func resumeTerminationWaiters(for key: RuleKey) {
-        let waiters: [CheckedContinuation<Void, Never>]
-        if let storedWaiters = terminationWaiters.removeValue(forKey: key) {
-            waiters = Array(storedWaiters.values)
-        } else {
-            waiters = []
+    @discardableResult
+    private func waitForTermination(of key: RuleKey, timeoutNanoseconds: UInt64?) async -> Bool {
+        let pollInterval: UInt64 = 50_000_000
+        let deadline = timeoutNanoseconds.map { DispatchTime.now().uptimeNanoseconds &+ $0 }
+
+        while sessions[key] != nil {
+            if let deadline, DispatchTime.now().uptimeNanoseconds >= deadline {
+                return false
+            }
+
+            let sleepNanoseconds: UInt64
+            if let deadline {
+                let now = DispatchTime.now().uptimeNanoseconds
+                if now >= deadline {
+                    return false
+                }
+                sleepNanoseconds = min(pollInterval, deadline - now)
+            } else {
+                sleepNanoseconds = pollInterval
+            }
+
+            try? await Task.sleep(nanoseconds: sleepNanoseconds)
         }
-        for waiter in waiters {
-            waiter.resume()
-        }
+
+        return true
     }
 
     private func emitSnapshot() {

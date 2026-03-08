@@ -86,7 +86,7 @@ struct TunnelRuntimeStoreTests {
         }
 
         try await Task.sleep(nanoseconds: 250_000_000)
-        #expect(runner.startCount == 1)
+        #expect(runner.startCount == 2)
         #expect(await completion.isFinished == false)
 
         runner.terminateAll()
@@ -96,7 +96,7 @@ struct TunnelRuntimeStoreTests {
         let restartedRule = snapshot.groups
             .flatMap(\.rules)
             .first(where: { $0.id == rule })
-        #expect(runner.startCount == 2)
+        #expect(runner.startCount == 4)
         #expect(restartedRule?.state.status == .running)
     }
 
@@ -130,6 +130,52 @@ struct TunnelRuntimeStoreTests {
             .flatMap(\.rules)
             .first(where: { $0.id == rule })
         #expect(stoppedRule?.state.status == .stopped)
+    }
+
+    @Test
+    func shutdownReturnsAfterTimeoutWhenProcessDoesNotTerminate() async throws {
+        let runner = StubProcessRunner(stopMode: .manual)
+        let runtime = TunnelRuntimeStore(
+            commandBuilder: StubCommandBuilder(),
+            processRunner: runner,
+            logWriter: MemoryLogWriter(),
+            shutdownWaitTimeoutNanoseconds: 100_000_000
+        )
+        let rule = RuleKey(kind: .ssh, groupID: "bastion", ruleID: "db")
+        let completion = CompletionProbe()
+
+        await runtime.applyConfiguration(.fixture())
+        await runtime.startRule(rule)
+
+        let shutdownTask = Task {
+            await runtime.shutdown()
+            await completion.markFinished()
+        }
+
+        try await Task.sleep(nanoseconds: 250_000_000)
+        #expect(await completion.isFinished == true)
+        await shutdownTask.value
+    }
+
+    @Test
+    func applyConfigurationStartsNewlyEnabledRules() async throws {
+        let runner = StubProcessRunner()
+        let runtime = TunnelRuntimeStore(
+            commandBuilder: StubCommandBuilder(),
+            processRunner: runner,
+            logWriter: MemoryLogWriter()
+        )
+        let disabledRule = RuleKey(kind: .ssh, groupID: "bastion", ruleID: "disabled")
+
+        await runtime.applyConfiguration(.fixture())
+        await runtime.startEnabledRules()
+        await runtime.applyConfiguration(.fixture(enableDisabledRule: true))
+
+        let snapshot = await runtime.snapshot()
+        let restartedRule = snapshot.groups
+            .flatMap(\.rules)
+            .first(where: { $0.id == disabledRule })
+        #expect(restartedRule?.state.status == .running)
     }
 
     @Test
@@ -247,7 +293,7 @@ private actor CompletionProbe {
 }
 
 private extension AppConfiguration {
-    static func fixture() -> AppConfiguration {
+    static func fixture(enableDisabledRule: Bool = false) -> AppConfiguration {
         AppConfiguration(
             version: 1,
             ssh: [
@@ -265,7 +311,7 @@ private extension AppConfiguration {
                         ),
                         SSHForwardConfig(
                             id: "disabled",
-                            enabled: false,
+                            enabled: enableDisabledRule,
                             localPort: 18000,
                             remoteHost: "127.0.0.1",
                             remotePort: 8000

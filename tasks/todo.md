@@ -38,3 +38,4 @@
 - GitHub MCP は読み取りできたが Issue 作成は 403 だった。Issue 作成は sandbox 外の `gh issue create` で実行した。
 - GitHub MCP は Issue 更新も 403 だったため、#3 と #4 の依存関係修正は sandbox 外の `gh issue edit` で実行した。
 - 2026-03-08 18:44 JST に PR #6 の review 指摘を反映し、`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 10 テストが成功した。
+- 2026-03-08 19:50 JST に PR #6 の再 review 指摘を反映し、`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 12 テストが成功した。
