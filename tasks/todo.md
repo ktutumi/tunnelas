@@ -34,11 +34,11 @@
 
 ## Current Task
 
-### Issue #9 メニュー項目への接続ステータス表示追加
+### SSH トンネル高 CPU 修正
 
-- [x] グループ項目に接続状態を示す記号を表示する
-- [x] ルール項目に接続状態を示す記号を表示する
-- [x] `running` / `starting` / `error` / `stopped` の 4 状態を識別できるようにする
+- [x] SSH トンネル起動時に CPU 使用率が上昇する経路を特定する
+- [x] 無出力プロセスでスピンしない監視方式のテストを追加する
+- [x] `SystemProcessRunner` の stdout / stderr 監視を修正する
 - [x] `xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を通す
 
 ## Review Notes
@@ -58,3 +58,5 @@
 - 2026-03-08 21:55 JST にメニューのグループ項目とルール項目へ状態記号とアクセシビリティラベルを追加し、`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 17 テストが成功した。
 - 2026-03-08 23:41 JST に、サブメニュー項目のアイコンが実メニューに表示されない問題を修正し、項目タイトルに状態文字列を含める形へ切り替えた。`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 17 テストが成功した。
 - 2026-03-08 23:51 JST に、メニュー項目の状態表示を Unicode 記号 `● / ◐ / ▲ / ○` に変更し、行頭へ配置した。`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 17 テストが成功した。
+- 2026-03-09 01:00 JST に SSH トンネル起動時の高 CPU を調査し、`SystemProcessRunner` の `Pipe.fileHandleForReading.readabilityHandler` が 0 バイト `availableData` を継続的に受け取ってスピンすることを補助検証で確認した。`/bin/sleep 1` に対しても stdout/stderr それぞれ約 13 万回のコールバックが発生した。
+- 2026-03-09 01:04 JST に `SystemProcessRunner` の stdout/stderr 監視を `DispatchSourceRead` ベースの `PipeReadMonitor` に置き換え、アイドル状態の pipe でイベントが発火しないことをテスト追加で固定した。`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` は 19 テスト成功で完了した。

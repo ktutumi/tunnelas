@@ -10,17 +10,20 @@
 		11E4C9CBA90E7356543D46FF /* TunnelasInfra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D957637256445C6C20577942 /* TunnelasInfra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1B6A4BBB183483D1A2F7C12B /* RuleDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A6401C5C8DD6F754D07AB3 /* RuleDefinitions.swift */; };
 		21029D7426E512672433D914 /* TunnelasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A598710018DAA5EC21EF8 /* TunnelasApp.swift */; };
+		220746425F64306F329DEA54 /* TunnelasInfra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D957637256445C6C20577942 /* TunnelasInfra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		25F48BDE2174FDEB3E7F04FB /* SystemCommandBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8678D71FC18DDDA66886EB /* SystemCommandBuilder.swift */; };
 		313257C6EAFF4FCAAF662BD1 /* TunnelRuntimeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15F85A3E8A4FB6547FF655 /* TunnelRuntimeStoreTests.swift */; };
 		35B0A0FA27CDFFB022532010 /* SystemSleepWakeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4BE7156ED22D6507FA751E /* SystemSleepWakeObserver.swift */; };
 		414FDE5F05F98E43D98683BA /* TunnelasCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		53E9F660455D1D8D6417EE5F /* RuntimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18A3A6717C4E66A426F4CD /* RuntimeTypes.swift */; };
 		56C1067C20BE5E8FBD001FA7 /* ConfigurationValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7C4AC2E241443446D65F86 /* ConfigurationValidation.swift */; };
+		65D25D3486611006479F95EB /* SystemProcessRunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9886AF07550C4912F68BF81 /* SystemProcessRunnerTests.swift */; };
 		6C134D5E0CEF8138816B8E76 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC72BF2B0AD310288099857 /* SettingsView.swift */; };
 		769A4B2C9AC19E56B552BDDF /* TunnelRuntimeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9F80AC2CA0539F66BF47EA /* TunnelRuntimeStore.swift */; };
 		9322745A39524B79952C4484 /* TunnelasCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; };
 		99E57B1BDE15EF114A19B1E4 /* TunnelasCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; };
 		9E74CA13FA2928242FBCB798 /* LogWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A78BC7C712601B2CA0DAF /* LogWindowView.swift */; };
+		A08E0916B7F71EC3B188B741 /* TunnelasInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D957637256445C6C20577942 /* TunnelasInfra.framework */; };
 		A50DA7AD02CA4A36DE9F8897 /* TunnelasCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AD27FA3A2915685BDBD9638A /* TunnelasInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D957637256445C6C20577942 /* TunnelasInfra.framework */; };
 		B0ACF6B20BA82A2FB3FF41F6 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FC8D2AE52E3E35073EFDD6 /* AppModel.swift */; };
@@ -49,6 +52,13 @@
 			remoteGlobalIDString = 3485C0447DD51AF3AA1D981B;
 			remoteInfo = TunnelasCore;
 		};
+		59E4FD2801EDB3D061CEDA98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 466DE0F35964327A6DD44E41 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 320539D24478658FABC9525B;
+			remoteInfo = TunnelasInfra;
+		};
 		99083529D040756D4C16DD08 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 466DE0F35964327A6DD44E41 /* Project object */;
@@ -73,6 +83,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A50DA7AD02CA4A36DE9F8897 /* TunnelasCore.framework in Embed Frameworks */,
+				220746425F64306F329DEA54 /* TunnelasInfra.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,6 +123,7 @@
 		D90044E4A5461D37C3B20536 /* SystemProcessRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemProcessRunner.swift; sourceTree = "<group>"; };
 		D957637256445C6C20577942 /* TunnelasInfra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TunnelasInfra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2D12102B97CDFDB73821761 /* ConfigurationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationModels.swift; sourceTree = "<group>"; };
+		E9886AF07550C4912F68BF81 /* SystemProcessRunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemProcessRunnerTests.swift; sourceTree = "<group>"; };
 		EB15F85A3E8A4FB6547FF655 /* TunnelRuntimeStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelRuntimeStoreTests.swift; sourceTree = "<group>"; };
 		F8F6CD26D6A6070DA670D9B7 /* TunnelasCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TunnelasCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -122,6 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9322745A39524B79952C4484 /* TunnelasCore.framework in Frameworks */,
+				A08E0916B7F71EC3B188B741 /* TunnelasInfra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				2D470C6B2D8CFF1CB36DFE21 /* ConfigurationValidatorTests.swift */,
+				E9886AF07550C4912F68BF81 /* SystemProcessRunnerTests.swift */,
 				EB15F85A3E8A4FB6547FF655 /* TunnelRuntimeStoreTests.swift */,
 			);
 			path = TunnelasCoreTests;
@@ -228,6 +242,7 @@
 			);
 			dependencies = (
 				FF04BACC25A77FECDBC42854 /* PBXTargetDependency */,
+				DF847AAC29B5E32092A4399F /* PBXTargetDependency */,
 			);
 			name = TunnelasCoreTests;
 			packageProductDependencies = (
@@ -355,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8DD6A9878A065647D385BE1 /* ConfigurationValidatorTests.swift in Sources */,
+				65D25D3486611006479F95EB /* SystemProcessRunnerTests.swift in Sources */,
 				313257C6EAFF4FCAAF662BD1 /* TunnelRuntimeStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,6 +413,11 @@
 			isa = PBXTargetDependency;
 			target = 3485C0447DD51AF3AA1D981B /* TunnelasCore */;
 			targetProxy = 99083529D040756D4C16DD08 /* PBXContainerItemProxy */;
+		};
+		DF847AAC29B5E32092A4399F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 320539D24478658FABC9525B /* TunnelasInfra */;
+			targetProxy = 59E4FD2801EDB3D061CEDA98 /* PBXContainerItemProxy */;
 		};
 		FB7471C62727A5A9370B6E05 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
