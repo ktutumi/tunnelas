@@ -34,6 +34,38 @@ public enum RuleStatus: String, Codable, Sendable {
     case error
 }
 
+public extension RuleStatus {
+    var menuStatusText: String {
+        switch self {
+        case .stopped:
+            return "Stopped"
+        case .starting:
+            return "Starting"
+        case .running:
+            return "Running"
+        case .error:
+            return "Error"
+        }
+    }
+
+    var menuStatusSymbolName: String {
+        switch self {
+        case .stopped:
+            return "xmark.circle"
+        case .starting:
+            return "arrow.clockwise.circle"
+        case .running:
+            return "checkmark.circle.fill"
+        case .error:
+            return "exclamationmark.triangle.fill"
+        }
+    }
+
+    var menuStatusAccessibilityLabel: String {
+        "Status: \(menuStatusText)"
+    }
+}
+
 public struct RuleErrorSummary: Equatable, Codable, Sendable {
     public let message: String
     public let suggestion: String?
@@ -169,6 +201,31 @@ public extension RuntimeSnapshot {
 }
 
 public extension GroupSnapshot {
+    var menuStatus: RuleStatus {
+        if errorRuleCount > 0 {
+            return .error
+        }
+        if startingRuleCount > 0 {
+            return .starting
+        }
+        if runningRuleCount > 0 {
+            return .running
+        }
+        return .stopped
+    }
+
+    var menuStatusText: String {
+        menuStatus.menuStatusText
+    }
+
+    var menuStatusSymbolName: String {
+        menuStatus.menuStatusSymbolName
+    }
+
+    var menuStatusAccessibilityLabel: String {
+        menuStatus.menuStatusAccessibilityLabel
+    }
+
     var runningRuleCount: Int {
         rules.filter { $0.state.status == .running }.count
     }
@@ -220,16 +277,15 @@ public extension GroupSnapshot {
 
 public extension RuleSnapshot {
     var statusText: String {
-        switch state.status {
-        case .stopped:
-            return "Stopped"
-        case .starting:
-            return "Starting"
-        case .running:
-            return "Running"
-        case .error:
-            return "Error"
-        }
+        state.status.menuStatusText
+    }
+
+    var menuStatusSymbolName: String {
+        state.status.menuStatusSymbolName
+    }
+
+    var menuStatusAccessibilityLabel: String {
+        state.status.menuStatusAccessibilityLabel
     }
 
     var menuSymbolName: String {

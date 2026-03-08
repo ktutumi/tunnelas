@@ -16,6 +16,7 @@
 4. #4 Tunnelas メニューバー UI とログウィンドウ実装
 5. #3 Tunnelas スリープ復帰・終了処理・検証整備
 6. #7 メニューバー項目のコンパクト化と詳細のサブメニュー化
+7. #9 メニュー項目への接続ステータス表示追加
 
 ## Checklist
 
@@ -33,11 +34,11 @@
 
 ## Current Task
 
-### Issue #7 メニューバー項目のコンパクト化と詳細のサブメニュー化
+### Issue #9 メニュー項目への接続ステータス表示追加
 
-- [x] メニューバーの最上位表示を全体ステータスと主要操作に絞る
-- [x] グループとルールの詳細を階層サブメニューへ移す
-- [x] 状態に応じたアイコンとショートカットを整理する
+- [x] グループ項目に接続状態を示す記号を表示する
+- [x] ルール項目に接続状態を示す記号を表示する
+- [x] `running` / `starting` / `error` / `stopped` の 4 状態を識別できるようにする
 - [x] `xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を通す
 
 ## Review Notes
@@ -53,3 +54,5 @@
 - 2026-03-08 21:05 JST に GitHub Issue #7 を作成し、メニューバー UI のコンパクト化とサブメニュー化に着手した。
 - 2026-03-08 21:07 JST にブランチ名を `feature/menu-bar-compact-submenu` へ修正し、GitHub 向けの lowercase / kebab-case 運用を `AGENTS.md` に明文化した。
 - 2026-03-08 21:10 JST に `xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を実行し、16 テストが成功した。
+- 2026-03-08 21:54 JST に GitHub Issue #9 を作成し、メニュー項目への接続ステータス表示追加に着手した。
+- 2026-03-08 21:55 JST にメニューのグループ項目とルール項目へ状態記号とアクセシビリティラベルを追加し、`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 17 テストが成功した。
