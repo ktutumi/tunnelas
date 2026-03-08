@@ -1,0 +1,72 @@
+name: Tunnelas
+options:
+  createIntermediateGroups: true
+configs:
+  Debug: debug
+  Release: release
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    MACOSX_DEPLOYMENT_TARGET: 13.0
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGNING_ALLOWED: NO
+    GENERATE_INFOPLIST_FILE: YES
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+targets:
+  TunnelasCore:
+    type: framework
+    platform: macOS
+    sources:
+      - TunnelasCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ktutumi.tunnelas.core
+        DEFINES_MODULE: YES
+
+  TunnelasInfra:
+    type: framework
+    platform: macOS
+    sources:
+      - TunnelasInfra
+    dependencies:
+      - target: TunnelasCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ktutumi.tunnelas.infra
+        DEFINES_MODULE: YES
+
+  TunnelasApp:
+    type: application
+    platform: macOS
+    sources:
+      - TunnelasApp
+    dependencies:
+      - target: TunnelasCore
+      - target: TunnelasInfra
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ktutumi.tunnelas
+        INFOPLIST_KEY_LSUIElement: YES
+        PRODUCT_NAME: Tunnelas
+
+  TunnelasCoreTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - TunnelasCoreTests
+    dependencies:
+      - target: TunnelasCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ktutumi.tunnelas.tests
+schemes:
+  Tunnelas:
+    build:
+      targets:
+        TunnelasApp: all
+        TunnelasCoreTests: [test]
+    test:
+      targets:
+        - TunnelasCoreTests
+

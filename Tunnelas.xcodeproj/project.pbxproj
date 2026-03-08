@@ -1,0 +1,744 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		11E4C9CBA90E7356543D46FF /* TunnelasInfra.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D957637256445C6C20577942 /* TunnelasInfra.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1B6A4BBB183483D1A2F7C12B /* RuleDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A6401C5C8DD6F754D07AB3 /* RuleDefinitions.swift */; };
+		21029D7426E512672433D914 /* TunnelasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A598710018DAA5EC21EF8 /* TunnelasApp.swift */; };
+		25F48BDE2174FDEB3E7F04FB /* SystemCommandBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8678D71FC18DDDA66886EB /* SystemCommandBuilder.swift */; };
+		313257C6EAFF4FCAAF662BD1 /* TunnelRuntimeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB15F85A3E8A4FB6547FF655 /* TunnelRuntimeStoreTests.swift */; };
+		35B0A0FA27CDFFB022532010 /* SystemSleepWakeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4BE7156ED22D6507FA751E /* SystemSleepWakeObserver.swift */; };
+		414FDE5F05F98E43D98683BA /* TunnelasCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		53E9F660455D1D8D6417EE5F /* RuntimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18A3A6717C4E66A426F4CD /* RuntimeTypes.swift */; };
+		56C1067C20BE5E8FBD001FA7 /* ConfigurationValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7C4AC2E241443446D65F86 /* ConfigurationValidation.swift */; };
+		6C134D5E0CEF8138816B8E76 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC72BF2B0AD310288099857 /* SettingsView.swift */; };
+		769A4B2C9AC19E56B552BDDF /* TunnelRuntimeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9F80AC2CA0539F66BF47EA /* TunnelRuntimeStore.swift */; };
+		9322745A39524B79952C4484 /* TunnelasCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; };
+		99E57B1BDE15EF114A19B1E4 /* TunnelasCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; };
+		9E74CA13FA2928242FBCB798 /* LogWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A78BC7C712601B2CA0DAF /* LogWindowView.swift */; };
+		A50DA7AD02CA4A36DE9F8897 /* TunnelasCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AD27FA3A2915685BDBD9638A /* TunnelasInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D957637256445C6C20577942 /* TunnelasInfra.framework */; };
+		B0ACF6B20BA82A2FB3FF41F6 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FC8D2AE52E3E35073EFDD6 /* AppModel.swift */; };
+		B436458FC32C64452714CD0D /* FileLogSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E6CFBAD658FDB72699D1D6 /* FileLogSink.swift */; };
+		C402434F474DD762D5947815 /* SystemProcessRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90044E4A5461D37C3B20536 /* SystemProcessRunner.swift */; };
+		C9BEA2F51F350DF067619241 /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078DA00DB2B3A26485610DA /* MenuBarContentView.swift */; };
+		CA118984F4FE9487CBBA8840 /* TunnelasCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */; };
+		D00FB97908FEB00825822707 /* FileConfigurationLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8348596330F7F65600D127 /* FileConfigurationLoader.swift */; };
+		E45E7699F9003CEADBE1046B /* ConfigurationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44799E90141591A0038E6E22 /* ConfigurationRepository.swift */; };
+		F8DD6A9878A065647D385BE1 /* ConfigurationValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D470C6B2D8CFF1CB36DFE21 /* ConfigurationValidatorTests.swift */; };
+		FE2A1B6280A42C8F8BBAD7AF /* ConfigurationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D12102B97CDFDB73821761 /* ConfigurationModels.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1709E50A9355C80A7A17E29C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 466DE0F35964327A6DD44E41 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3485C0447DD51AF3AA1D981B;
+			remoteInfo = TunnelasCore;
+		};
+		3B06FEB7E16B626CE8BD40BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 466DE0F35964327A6DD44E41 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3485C0447DD51AF3AA1D981B;
+			remoteInfo = TunnelasCore;
+		};
+		99083529D040756D4C16DD08 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 466DE0F35964327A6DD44E41 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3485C0447DD51AF3AA1D981B;
+			remoteInfo = TunnelasCore;
+		};
+		B10D2A351937C1B8F517EA51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 466DE0F35964327A6DD44E41 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 320539D24478658FABC9525B;
+			remoteInfo = TunnelasInfra;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		86E6AE4FBCBA270A67A74F44 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A50DA7AD02CA4A36DE9F8897 /* TunnelasCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D003A10F3428252B2DCD9A54 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				414FDE5F05F98E43D98683BA /* TunnelasCore.framework in Embed Frameworks */,
+				11E4C9CBA90E7356543D46FF /* TunnelasInfra.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0A18A3A6717C4E66A426F4CD /* RuntimeTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeTypes.swift; sourceTree = "<group>"; };
+		1078DA00DB2B3A26485610DA /* MenuBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContentView.swift; sourceTree = "<group>"; };
+		1F2BE063330D42012C38B055 /* TunnelasCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TunnelasCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D470C6B2D8CFF1CB36DFE21 /* ConfigurationValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationValidatorTests.swift; sourceTree = "<group>"; };
+		2D8348596330F7F65600D127 /* FileConfigurationLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileConfigurationLoader.swift; sourceTree = "<group>"; };
+		2F9A78BC7C712601B2CA0DAF /* LogWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogWindowView.swift; sourceTree = "<group>"; };
+		39A6401C5C8DD6F754D07AB3 /* RuleDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDefinitions.swift; sourceTree = "<group>"; };
+		44799E90141591A0038E6E22 /* ConfigurationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationRepository.swift; sourceTree = "<group>"; };
+		5F4BE7156ED22D6507FA751E /* SystemSleepWakeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSleepWakeObserver.swift; sourceTree = "<group>"; };
+		7FC72BF2B0AD310288099857 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		88FC8D2AE52E3E35073EFDD6 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		8C9F80AC2CA0539F66BF47EA /* TunnelRuntimeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelRuntimeStore.swift; sourceTree = "<group>"; };
+		93E6CFBAD658FDB72699D1D6 /* FileLogSink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogSink.swift; sourceTree = "<group>"; };
+		AF7C4AC2E241443446D65F86 /* ConfigurationValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationValidation.swift; sourceTree = "<group>"; };
+		B002B4B55BB0550F7C5D5D14 /* TunnelasApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TunnelasApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B37A598710018DAA5EC21EF8 /* TunnelasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelasApp.swift; sourceTree = "<group>"; };
+		CB8678D71FC18DDDA66886EB /* SystemCommandBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemCommandBuilder.swift; sourceTree = "<group>"; };
+		D90044E4A5461D37C3B20536 /* SystemProcessRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemProcessRunner.swift; sourceTree = "<group>"; };
+		D957637256445C6C20577942 /* TunnelasInfra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TunnelasInfra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2D12102B97CDFDB73821761 /* ConfigurationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationModels.swift; sourceTree = "<group>"; };
+		EB15F85A3E8A4FB6547FF655 /* TunnelRuntimeStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelRuntimeStoreTests.swift; sourceTree = "<group>"; };
+		F8F6CD26D6A6070DA670D9B7 /* TunnelasCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TunnelasCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5B8622BFD1DA71E890D5D95B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9322745A39524B79952C4484 /* TunnelasCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		880EE0F874EA2F62736CD0E5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA118984F4FE9487CBBA8840 /* TunnelasCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		940E265FFED30C51EB75D75E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99E57B1BDE15EF114A19B1E4 /* TunnelasCore.framework in Frameworks */,
+				AD27FA3A2915685BDBD9638A /* TunnelasInfra.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2671F4484FA3DAD73E729A27 /* TunnelasInfra */ = {
+			isa = PBXGroup;
+			children = (
+				2D8348596330F7F65600D127 /* FileConfigurationLoader.swift */,
+				93E6CFBAD658FDB72699D1D6 /* FileLogSink.swift */,
+				CB8678D71FC18DDDA66886EB /* SystemCommandBuilder.swift */,
+				D90044E4A5461D37C3B20536 /* SystemProcessRunner.swift */,
+			);
+			path = TunnelasInfra;
+			sourceTree = "<group>";
+		};
+		441944DF987066E01FB0BF9C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B002B4B55BB0550F7C5D5D14 /* TunnelasApp.app */,
+				1F2BE063330D42012C38B055 /* TunnelasCore.framework */,
+				F8F6CD26D6A6070DA670D9B7 /* TunnelasCoreTests.xctest */,
+				D957637256445C6C20577942 /* TunnelasInfra.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		464BEA431C949690E2AD9EAC /* TunnelasCore */ = {
+			isa = PBXGroup;
+			children = (
+				E2D12102B97CDFDB73821761 /* ConfigurationModels.swift */,
+				44799E90141591A0038E6E22 /* ConfigurationRepository.swift */,
+				AF7C4AC2E241443446D65F86 /* ConfigurationValidation.swift */,
+				39A6401C5C8DD6F754D07AB3 /* RuleDefinitions.swift */,
+				0A18A3A6717C4E66A426F4CD /* RuntimeTypes.swift */,
+				8C9F80AC2CA0539F66BF47EA /* TunnelRuntimeStore.swift */,
+			);
+			path = TunnelasCore;
+			sourceTree = "<group>";
+		};
+		727E1411EF43ACEE4E3C53C9 = {
+			isa = PBXGroup;
+			children = (
+				C54B2A7D38408FF2D5C73BFD /* TunnelasApp */,
+				464BEA431C949690E2AD9EAC /* TunnelasCore */,
+				90B036ECAF10ED73F7B842CB /* TunnelasCoreTests */,
+				2671F4484FA3DAD73E729A27 /* TunnelasInfra */,
+				441944DF987066E01FB0BF9C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		90B036ECAF10ED73F7B842CB /* TunnelasCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				2D470C6B2D8CFF1CB36DFE21 /* ConfigurationValidatorTests.swift */,
+				EB15F85A3E8A4FB6547FF655 /* TunnelRuntimeStoreTests.swift */,
+			);
+			path = TunnelasCoreTests;
+			sourceTree = "<group>";
+		};
+		C54B2A7D38408FF2D5C73BFD /* TunnelasApp */ = {
+			isa = PBXGroup;
+			children = (
+				88FC8D2AE52E3E35073EFDD6 /* AppModel.swift */,
+				2F9A78BC7C712601B2CA0DAF /* LogWindowView.swift */,
+				1078DA00DB2B3A26485610DA /* MenuBarContentView.swift */,
+				7FC72BF2B0AD310288099857 /* SettingsView.swift */,
+				5F4BE7156ED22D6507FA751E /* SystemSleepWakeObserver.swift */,
+				B37A598710018DAA5EC21EF8 /* TunnelasApp.swift */,
+			);
+			path = TunnelasApp;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		20B3EED8C636198C7F40AA7B /* TunnelasCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 979AE46F869DD175047A1940 /* Build configuration list for PBXNativeTarget "TunnelasCoreTests" */;
+			buildPhases = (
+				866237B0D3DE47D095503443 /* Sources */,
+				5B8622BFD1DA71E890D5D95B /* Frameworks */,
+				86E6AE4FBCBA270A67A74F44 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF04BACC25A77FECDBC42854 /* PBXTargetDependency */,
+			);
+			name = TunnelasCoreTests;
+			packageProductDependencies = (
+			);
+			productName = TunnelasCoreTests;
+			productReference = F8F6CD26D6A6070DA670D9B7 /* TunnelasCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		31A218349308BBAC54EED6E0 /* TunnelasApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83BBC5D30B4BF1E705383BF6 /* Build configuration list for PBXNativeTarget "TunnelasApp" */;
+			buildPhases = (
+				952B1A1D3B471D1B088B7C7B /* Sources */,
+				940E265FFED30C51EB75D75E /* Frameworks */,
+				D003A10F3428252B2DCD9A54 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52F76EE71B54583A98E53EA3 /* PBXTargetDependency */,
+				FB7471C62727A5A9370B6E05 /* PBXTargetDependency */,
+			);
+			name = TunnelasApp;
+			packageProductDependencies = (
+			);
+			productName = TunnelasApp;
+			productReference = B002B4B55BB0550F7C5D5D14 /* TunnelasApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		320539D24478658FABC9525B /* TunnelasInfra */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FBDF1AC8CB4E459006AC40A9 /* Build configuration list for PBXNativeTarget "TunnelasInfra" */;
+			buildPhases = (
+				1C000A1AF401A1E6E712269A /* Sources */,
+				880EE0F874EA2F62736CD0E5 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B51D95B186D1BE5A1A1CBF9 /* PBXTargetDependency */,
+			);
+			name = TunnelasInfra;
+			packageProductDependencies = (
+			);
+			productName = TunnelasInfra;
+			productReference = D957637256445C6C20577942 /* TunnelasInfra.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		3485C0447DD51AF3AA1D981B /* TunnelasCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFA76DABDD18416889C1B260 /* Build configuration list for PBXNativeTarget "TunnelasCore" */;
+			buildPhases = (
+				8F5151037CE57D7CBA75BB26 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TunnelasCore;
+			packageProductDependencies = (
+			);
+			productName = TunnelasCore;
+			productReference = 1F2BE063330D42012C38B055 /* TunnelasCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		466DE0F35964327A6DD44E41 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					20B3EED8C636198C7F40AA7B = {
+						ProvisioningStyle = Automatic;
+					};
+					31A218349308BBAC54EED6E0 = {
+						ProvisioningStyle = Automatic;
+					};
+					320539D24478658FABC9525B = {
+						ProvisioningStyle = Automatic;
+					};
+					3485C0447DD51AF3AA1D981B = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 817CEDA9A42013134CAD031B /* Build configuration list for PBXProject "Tunnelas" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 727E1411EF43ACEE4E3C53C9;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 441944DF987066E01FB0BF9C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				31A218349308BBAC54EED6E0 /* TunnelasApp */,
+				3485C0447DD51AF3AA1D981B /* TunnelasCore */,
+				20B3EED8C636198C7F40AA7B /* TunnelasCoreTests */,
+				320539D24478658FABC9525B /* TunnelasInfra */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1C000A1AF401A1E6E712269A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00FB97908FEB00825822707 /* FileConfigurationLoader.swift in Sources */,
+				B436458FC32C64452714CD0D /* FileLogSink.swift in Sources */,
+				25F48BDE2174FDEB3E7F04FB /* SystemCommandBuilder.swift in Sources */,
+				C402434F474DD762D5947815 /* SystemProcessRunner.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		866237B0D3DE47D095503443 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8DD6A9878A065647D385BE1 /* ConfigurationValidatorTests.swift in Sources */,
+				313257C6EAFF4FCAAF662BD1 /* TunnelRuntimeStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F5151037CE57D7CBA75BB26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE2A1B6280A42C8F8BBAD7AF /* ConfigurationModels.swift in Sources */,
+				E45E7699F9003CEADBE1046B /* ConfigurationRepository.swift in Sources */,
+				56C1067C20BE5E8FBD001FA7 /* ConfigurationValidation.swift in Sources */,
+				1B6A4BBB183483D1A2F7C12B /* RuleDefinitions.swift in Sources */,
+				53E9F660455D1D8D6417EE5F /* RuntimeTypes.swift in Sources */,
+				769A4B2C9AC19E56B552BDDF /* TunnelRuntimeStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		952B1A1D3B471D1B088B7C7B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0ACF6B20BA82A2FB3FF41F6 /* AppModel.swift in Sources */,
+				9E74CA13FA2928242FBCB798 /* LogWindowView.swift in Sources */,
+				C9BEA2F51F350DF067619241 /* MenuBarContentView.swift in Sources */,
+				6C134D5E0CEF8138816B8E76 /* SettingsView.swift in Sources */,
+				35B0A0FA27CDFFB022532010 /* SystemSleepWakeObserver.swift in Sources */,
+				21029D7426E512672433D914 /* TunnelasApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B51D95B186D1BE5A1A1CBF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3485C0447DD51AF3AA1D981B /* TunnelasCore */;
+			targetProxy = 3B06FEB7E16B626CE8BD40BC /* PBXContainerItemProxy */;
+		};
+		52F76EE71B54583A98E53EA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3485C0447DD51AF3AA1D981B /* TunnelasCore */;
+			targetProxy = 99083529D040756D4C16DD08 /* PBXContainerItemProxy */;
+		};
+		FB7471C62727A5A9370B6E05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 320539D24478658FABC9525B /* TunnelasInfra */;
+			targetProxy = B10D2A351937C1B8F517EA51 /* PBXContainerItemProxy */;
+		};
+		FF04BACC25A77FECDBC42854 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3485C0447DD51AF3AA1D981B /* TunnelasCore */;
+			targetProxy = 1709E50A9355C80A7A17E29C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		08683A8E5FCFF076AA8DA5BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ktutumi.tunnelas;
+				PRODUCT_NAME = Tunnelas;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2552E1010490594C06D7268A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ktutumi.tunnelas.infra;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		81497B24A7EF285931F9E1C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		8980AE31A3B9A0248865F1A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ktutumi.tunnelas.tests;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A97D9A1C092F3E9C2394EF81 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ktutumi.tunnelas.core;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		BE18ADD410F1A147F6665265 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ktutumi.tunnelas.infra;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		D939C96E2F916DC055666545 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		E0E70DF845332BB757B5BAF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ktutumi.tunnelas.core;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		E217A24F890DBD61ADDC8829 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ktutumi.tunnelas.tests;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E25D05E4C6CADC6A4647355C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ktutumi.tunnelas;
+				PRODUCT_NAME = Tunnelas;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		817CEDA9A42013134CAD031B /* Build configuration list for PBXProject "Tunnelas" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81497B24A7EF285931F9E1C9 /* Debug */,
+				D939C96E2F916DC055666545 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		83BBC5D30B4BF1E705383BF6 /* Build configuration list for PBXNativeTarget "TunnelasApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E25D05E4C6CADC6A4647355C /* Debug */,
+				08683A8E5FCFF076AA8DA5BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		979AE46F869DD175047A1940 /* Build configuration list for PBXNativeTarget "TunnelasCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E217A24F890DBD61ADDC8829 /* Debug */,
+				8980AE31A3B9A0248865F1A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EFA76DABDD18416889C1B260 /* Build configuration list for PBXNativeTarget "TunnelasCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A97D9A1C092F3E9C2394EF81 /* Debug */,
+				E0E70DF845332BB757B5BAF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FBDF1AC8CB4E459006AC40A9 /* Build configuration list for PBXNativeTarget "TunnelasInfra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE18ADD410F1A147F6665265 /* Debug */,
+				2552E1010490594C06D7268A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 466DE0F35964327A6DD44E41 /* Project object */;
+}
