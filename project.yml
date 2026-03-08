@@ -57,6 +57,7 @@ targets:
       - TunnelasCoreTests
     dependencies:
       - target: TunnelasCore
+      - target: TunnelasInfra
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.ktutumi.tunnelas.tests
@@ -69,4 +70,3 @@ schemes:
     test:
       targets:
         - TunnelasCoreTests
-

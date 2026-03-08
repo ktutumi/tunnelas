@@ -18,26 +18,30 @@ public struct SystemProcessRunner: ProcessRunning {
         process.standardOutput = stdoutPipe
         process.standardError = stderrPipe
 
-        stdoutPipe.fileHandleForReading.readabilityHandler = { handle in
-            let data = handle.availableData
-            guard !data.isEmpty, let text = String(data: data, encoding: .utf8) else { return }
+        let stdoutMonitor = PipeReadMonitor(fileHandle: stdoutPipe.fileHandleForReading) { data in
+            guard let text = String(data: data, encoding: .utf8), !text.isEmpty else { return }
             emitter.yield(.stdout(text))
         }
 
-        stderrPipe.fileHandleForReading.readabilityHandler = { handle in
-            let data = handle.availableData
-            guard !data.isEmpty, let text = String(data: data, encoding: .utf8) else { return }
+        let stderrMonitor = PipeReadMonitor(fileHandle: stderrPipe.fileHandleForReading) { data in
+            guard let text = String(data: data, encoding: .utf8), !text.isEmpty else { return }
             emitter.yield(.stderr(text))
         }
 
         process.terminationHandler = { terminatedProcess in
-            stdoutPipe.fileHandleForReading.readabilityHandler = nil
-            stderrPipe.fileHandleForReading.readabilityHandler = nil
+            stdoutMonitor.cancel()
+            stderrMonitor.cancel()
             emitter.yield(.terminated(terminatedProcess.terminationStatus))
             emitter.finish()
         }
 
-        try process.run()
+        do {
+            try process.run()
+        } catch {
+            stdoutMonitor.cancel()
+            stderrMonitor.cancel()
+            throw error
+        }
 
         return ManagedProcessSession(
             processIdentifier: process.processIdentifier,
@@ -68,3 +72,56 @@ private final class ProcessEmitter: @unchecked Sendable {
     }
 }
 
+final class PipeReadMonitor: @unchecked Sendable {
+    private static let queue = DispatchQueue(
+        label: "com.ktutumi.tunnelas.pipe-read-monitor",
+        qos: .utility,
+        attributes: .concurrent
+    )
+
+    private let fileHandle: FileHandle
+    private let source: DispatchSourceRead
+    private let onData: @Sendable (Data) -> Void
+    private let onEOF: @Sendable () -> Void
+    private let stateLock = NSLock()
+    private var isCancelled = false
+
+    init(
+        fileHandle: FileHandle,
+        queue: DispatchQueue = PipeReadMonitor.queue,
+        onData: @escaping @Sendable (Data) -> Void,
+        onEOF: @escaping @Sendable () -> Void = {}
+    ) {
+        self.fileHandle = fileHandle
+        self.onData = onData
+        self.onEOF = onEOF
+        self.source = DispatchSource.makeReadSource(fileDescriptor: fileHandle.fileDescriptor, queue: queue)
+        source.setEventHandler { [weak self] in
+            self?.handleReadableEvent()
+        }
+        source.resume()
+    }
+
+    func cancel() {
+        stateLock.lock()
+        let shouldCancel = !isCancelled
+        isCancelled = true
+        stateLock.unlock()
+
+        guard shouldCancel else { return }
+        source.cancel()
+    }
+
+    private func handleReadableEvent() {
+        let byteCount = max(Int(source.data), 1)
+        let data = (try? fileHandle.read(upToCount: byteCount)) ?? Data()
+
+        guard !data.isEmpty else {
+            cancel()
+            onEOF()
+            return
+        }
+
+        onData(data)
+    }
+}
