@@ -35,6 +35,19 @@ public enum RuleStatus: String, Codable, Sendable {
 }
 
 public extension RuleStatus {
+    var menuStatusGlyph: String {
+        switch self {
+        case .stopped:
+            return "○"
+        case .starting:
+            return "◐"
+        case .running:
+            return "●"
+        case .error:
+            return "▲"
+        }
+    }
+
     var menuStatusText: String {
         switch self {
         case .stopped:
@@ -227,7 +240,7 @@ public extension GroupSnapshot {
     }
 
     var menuDisplayTitle: String {
-        "\(title) [\(menuStatusText)]"
+        "\(menuStatus.menuStatusGlyph) \(title)"
     }
 
     var runningRuleCount: Int {
@@ -285,7 +298,7 @@ public extension RuleSnapshot {
     }
 
     var menuDisplayTitle: String {
-        "\(title) [\(statusText)]"
+        "\(state.status.menuStatusGlyph) \(title)"
     }
 
     var menuStatusSymbolName: String {

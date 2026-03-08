@@ -57,3 +57,4 @@
 - 2026-03-08 21:54 JST に GitHub Issue #9 を作成し、メニュー項目への接続ステータス表示追加に着手した。
 - 2026-03-08 21:55 JST にメニューのグループ項目とルール項目へ状態記号とアクセシビリティラベルを追加し、`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 17 テストが成功した。
 - 2026-03-08 23:41 JST に、サブメニュー項目のアイコンが実メニューに表示されない問題を修正し、項目タイトルに状態文字列を含める形へ切り替えた。`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 17 テストが成功した。
+- 2026-03-08 23:51 JST に、メニュー項目の状態表示を Unicode 記号 `● / ◐ / ▲ / ○` に変更し、行頭へ配置した。`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 17 テストが成功した。
