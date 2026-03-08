@@ -4,6 +4,24 @@ import Testing
 
 struct TunnelRuntimeStoreTests {
     @Test
+    func applyConfigurationStartsEnabledRulesOnInitialLoad() async throws {
+        let runner = StubProcessRunner()
+        let runtime = TunnelRuntimeStore(
+            commandBuilder: StubCommandBuilder(),
+            processRunner: runner,
+            logWriter: MemoryLogWriter()
+        )
+
+        await runtime.applyConfiguration(.fixture())
+
+        let snapshot = await runtime.snapshot()
+        let statuses = snapshot.groups.flatMap(\.rules).map(\.state.status)
+        #expect(runner.startCount == 2)
+        #expect(statuses.filter { $0 == .running }.count == 2)
+        #expect(statuses.contains(.stopped))
+    }
+
+    @Test
     func startEnabledRulesStartsOnlyEnabledRules() async throws {
         let runner = StubProcessRunner()
         let runtime = TunnelRuntimeStore(

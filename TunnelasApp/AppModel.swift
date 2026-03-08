@@ -72,7 +72,6 @@ final class AppModel: ObservableObject {
             let configuration = try repository.load()
             configurationError = nil
             await runtime.applyConfiguration(configuration)
-            await runtime.startEnabledRules()
         } catch {
             configurationError = error.localizedDescription
         }
