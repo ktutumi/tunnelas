@@ -44,6 +44,95 @@ struct TunnelRuntimeStoreTests {
     }
 
     @Test
+    func startGroupSkipsDisabledRules() async throws {
+        let runner = StubProcessRunner()
+        let runtime = TunnelRuntimeStore(
+            commandBuilder: StubCommandBuilder(),
+            processRunner: runner,
+            logWriter: MemoryLogWriter()
+        )
+
+        await runtime.applyConfiguration(.fixture())
+        await runtime.startGroup(GroupKey(kind: .ssh, id: "bastion"))
+
+        let snapshot = await runtime.snapshot()
+        let rules = snapshot.groups
+            .first(where: { $0.id == GroupKey(kind: .ssh, id: "bastion") })?
+            .rules
+        let dbRule = rules?.first(where: { $0.id.ruleID == "db" })
+        let disabledRule = rules?.first(where: { $0.id.ruleID == "disabled" })
+        #expect(dbRule?.state.status == .running)
+        #expect(disabledRule?.state.status == .stopped)
+    }
+
+    @Test
+    func handleWakeWaitsForRestartStopCompletion() async throws {
+        let runner = StubProcessRunner(stopMode: .manual)
+        let runtime = TunnelRuntimeStore(
+            commandBuilder: StubCommandBuilder(),
+            processRunner: runner,
+            logWriter: MemoryLogWriter()
+        )
+        let rule = RuleKey(kind: .ssh, groupID: "bastion", ruleID: "db")
+        let completion = CompletionProbe()
+
+        await runtime.applyConfiguration(.fixture())
+        await runtime.startRule(rule)
+        await runtime.beginSleep()
+
+        let wakeTask = Task {
+            await runtime.handleWake()
+            await completion.markFinished()
+        }
+
+        try await Task.sleep(nanoseconds: 250_000_000)
+        #expect(runner.startCount == 1)
+        #expect(await completion.isFinished == false)
+
+        runner.terminateAll()
+        await wakeTask.value
+
+        let snapshot = await runtime.snapshot()
+        let restartedRule = snapshot.groups
+            .flatMap(\.rules)
+            .first(where: { $0.id == rule })
+        #expect(runner.startCount == 2)
+        #expect(restartedRule?.state.status == .running)
+    }
+
+    @Test
+    func shutdownWaitsForProcessesToTerminate() async throws {
+        let runner = StubProcessRunner(stopMode: .manual)
+        let runtime = TunnelRuntimeStore(
+            commandBuilder: StubCommandBuilder(),
+            processRunner: runner,
+            logWriter: MemoryLogWriter()
+        )
+        let rule = RuleKey(kind: .ssh, groupID: "bastion", ruleID: "db")
+        let completion = CompletionProbe()
+
+        await runtime.applyConfiguration(.fixture())
+        await runtime.startRule(rule)
+
+        let shutdownTask = Task {
+            await runtime.shutdown()
+            await completion.markFinished()
+        }
+
+        try await Task.sleep(nanoseconds: 50_000_000)
+        #expect(await completion.isFinished == false)
+
+        runner.terminateAll()
+        await shutdownTask.value
+
+        let snapshot = await runtime.snapshot()
+        let stoppedRule = snapshot.groups
+            .flatMap(\.rules)
+            .first(where: { $0.id == rule })
+        #expect(stoppedRule?.state.status == .stopped)
+    }
+
+    @Test
     func applyConfigurationKeepsPreviousStateOnCallerFailure() async throws {
         let runner = StubProcessRunner()
         let runtime = TunnelRuntimeStore(
@@ -78,18 +167,65 @@ private actor MemoryLogWriter: LogWriting {
 }
 
 private final class StubProcessRunner: ProcessRunning, @unchecked Sendable {
+    enum StopMode {
+        case immediate
+        case manual
+    }
+
+    private let stopMode: StopMode
+    private let lock = NSLock()
+    private var nextPID: Int32 = 123
+    private var emitters: [Int32: TestEmitter] = [:]
+    private(set) var startCount = 0
+
+    init(stopMode: StopMode = .immediate) {
+        self.stopMode = stopMode
+    }
+
     func start(command: ExecutableCommand) throws -> ManagedProcessSession {
         let emitter = TestEmitter()
         let stream = AsyncStream<ProcessEvent> { streamContinuation in
             emitter.continuation = streamContinuation
         }
+        let pid = lock.withLock {
+            let pid = nextPID
+            nextPID += 1
+            startCount += 1
+            emitters[pid] = emitter
+            return pid
+        }
         return ManagedProcessSession(
-            processIdentifier: 123,
+            processIdentifier: pid,
             events: stream,
-            stop: {
-                emitter.finish()
+            stop: { [weak self] in
+                self?.stop(pid: pid)
             }
         )
+    }
+
+    func terminateAll() {
+        let emitters = lock.withLock {
+            let active = Array(self.emitters.values)
+            self.emitters.removeAll()
+            return active
+        }
+        for emitter in emitters {
+            emitter.finish()
+        }
+    }
+
+    private func stop(pid: Int32) {
+        let emitter = lock.withLock { () -> TestEmitter? in
+            guard stopMode == .immediate else { return emitters[pid] }
+            let emitter = emitters[pid]
+            emitters.removeValue(forKey: pid)
+            return emitter
+        }
+
+        guard let emitter else { return }
+        if stopMode == .immediate {
+            emitter.finish()
+        }
     }
 }
 
@@ -99,6 +235,14 @@ private final class TestEmitter: @unchecked Sendable {
     func finish() {
         continuation?.yield(.terminated(0))
         continuation?.finish()
+    }
+}
+
+private actor CompletionProbe {
+    private(set) var isFinished = false
+
+    func markFinished() {
+        isFinished = true
     }
 }
 

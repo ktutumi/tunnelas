@@ -41,13 +41,13 @@ final class AppModel: ObservableObject {
             Task { await self.runtime.handleWake() }
         }
         self.sleepWakeObserver.start()
+        let runtime = self.runtime
         terminationObserver = NotificationCenter.default.addObserver(
             forName: NSApplication.willTerminateNotification,
             object: nil,
             queue: .main
-        ) { [weak self] _ in
-            guard let self else { return }
-            Task { await self.runtime.shutdown() }
+        ) { _ in
+            Self.shutdownRuntimeSynchronously(runtime)
         }
 
         streamTask = Task { [weak self] in
@@ -129,6 +129,18 @@ final class AppModel: ObservableObject {
     func openLogFile() {
         NSWorkspace.shared.open(logFileURL)
     }
+
+    private nonisolated static func shutdownRuntimeSynchronously(_ runtime: TunnelRuntimeStore) {
+        let semaphore = DispatchSemaphore(value: 0)
+
+        Task.detached {
+            await runtime.shutdown()
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+    }
+
     static func bootstrap() -> AppModel {
         let loader = FileConfigurationLoader()
         let repository = DefaultConfigurationRepository(loader: loader)

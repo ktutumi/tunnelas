@@ -12,6 +12,7 @@ public actor TunnelRuntimeStore {
     private var sessions: [RuleKey: ManagedProcessSession] = [:]
     private var eventTasks: [RuleKey: Task<Void, Never>] = [:]
     private var stoppingRules = Set<RuleKey>()
+    private var terminationWaiters: [RuleKey: [UUID: CheckedContinuation<Void, Never>]] = [:]
     private var preSleepRunningRules = Set<RuleKey>()
     private var continuations: [UUID: AsyncStream<RuntimeSnapshot>.Continuation] = [:]
 
@@ -51,7 +52,7 @@ public actor TunnelRuntimeStore {
         }
 
         for key in removedKeys {
-            await stopRule(key)
+            await stopRuleAndWait(key, logPrefix: "stopping")
             states.removeValue(forKey: key)
             logs.removeValue(forKey: key)
         }
@@ -81,6 +82,9 @@ public actor TunnelRuntimeStore {
             return
         }
         for ruleKey in group.ruleKeys {
+            guard configurationIndex.rulesByKey[ruleKey]?.isEnabled == true else {
+                continue
+            }
             await startRule(ruleKey)
         }
     }
@@ -159,8 +163,12 @@ public actor TunnelRuntimeStore {
     }
 
     public func shutdown() async {
-        for key in Array(sessions.keys) {
-            await stopRule(key)
+        let activeKeys = Array(sessions.keys)
+        for key in activeKeys {
+            await requestStop(for: key, logPrefix: "stopping")
+        }
+        for key in activeKeys {
+            await waitForTermination(of: key)
         }
     }
 
@@ -169,12 +177,7 @@ public actor TunnelRuntimeStore {
     }
 
     private func restartRule(_ key: RuleKey) async {
-        if sessions[key] != nil {
-            stoppingRules.insert(key)
-            sessions[key]?.stop()
-            await appendSystemLog("restarting \(describe(key))")
-            try? await Task.sleep(nanoseconds: 200_000_000)
-        }
+        await stopRuleAndWait(key, logPrefix: "restarting")
         await startRule(key)
     }
 
@@ -190,6 +193,7 @@ public actor TunnelRuntimeStore {
             eventTasks.removeValue(forKey: key)
 
             let wasStopping = stoppingRules.remove(key) != nil
+            resumeTerminationWaiters(for: key)
             if wasStopping || exitCode == 0 {
                 states[key] = .stopped()
             } else {
@@ -228,6 +232,49 @@ public actor TunnelRuntimeStore {
 
     private func appendSystemLog(_ line: String) async {
         await logWriter.write(line: "[system] \(line)")
+    }
+
+    private func stopRuleAndWait(_ key: RuleKey, logPrefix: String) async {
+        let didRequestStop = await requestStop(for: key, logPrefix: logPrefix)
+        if didRequestStop {
+            await waitForTermination(of: key)
+        }
+    }
+
+    @discardableResult
+    private func requestStop(for key: RuleKey, logPrefix: String) async -> Bool {
+        guard let session = sessions[key] else {
+            return false
+        }
+        let inserted = stoppingRules.insert(key).inserted
+        if inserted {
+            session.stop()
+            await appendSystemLog("\(logPrefix) \(describe(key))")
+        }
+        return true
+    }
+
+    private func waitForTermination(of key: RuleKey) async {
+        guard sessions[key] != nil else {
+            return
+        }
+
+        let identifier = UUID()
+        await withCheckedContinuation { continuation in
+            terminationWaiters[key, default: [:]][identifier] = continuation
+        }
+    }
+
+    private func resumeTerminationWaiters(for key: RuleKey) {
+        let waiters: [CheckedContinuation<Void, Never>]
+        if let storedWaiters = terminationWaiters.removeValue(forKey: key) {
+            waiters = Array(storedWaiters.values)
+        } else {
+            waiters = []
+        }
+        for waiter in waiters {
+            waiter.resume()
+        }
     }
 
     private func emitSnapshot() {
@@ -271,4 +318,3 @@ public actor TunnelRuntimeStore {
         continuations.removeValue(forKey: identifier)
     }
 }
-
