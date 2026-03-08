@@ -15,6 +15,7 @@
 3. #5 Tunnelas ランタイム状態管理と外部プロセス実行基盤
 4. #4 Tunnelas メニューバー UI とログウィンドウ実装
 5. #3 Tunnelas スリープ復帰・終了処理・検証整備
+6. #7 メニューバー項目のコンパクト化と詳細のサブメニュー化
 
 ## Checklist
 
@@ -30,6 +31,15 @@
 - [x] アプリ終了時に管理プロセスを停止できる
 - [x] `xcodebuild test` が通る
 
+## Current Task
+
+### Issue #7 メニューバー項目のコンパクト化と詳細のサブメニュー化
+
+- [x] メニューバーの最上位表示を全体ステータスと主要操作に絞る
+- [x] グループとルールの詳細を階層サブメニューへ移す
+- [x] 状態に応じたアイコンとショートカットを整理する
+- [x] `xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を通す
+
 ## Review Notes
 
 - 2026-03-08 16:16 JST に `xcodegen generate` を実行し、`Tunnelas.xcodeproj` を生成した。
@@ -40,3 +50,6 @@
 - 2026-03-08 18:44 JST に PR #6 の review 指摘を反映し、`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 10 テストが成功した。
 - 2026-03-08 19:50 JST に PR #6 の再 review 指摘を反映し、`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 12 テストが成功した。
 - 2026-03-08 20:08 JST に PR #6 の追加 review 指摘を反映し、起動時の enabled rule 二重起動を防ぐ修正を入れた。`xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を再実行して 13 テストが成功した。
+- 2026-03-08 21:05 JST に GitHub Issue #7 を作成し、メニューバー UI のコンパクト化とサブメニュー化に着手した。
+- 2026-03-08 21:07 JST にブランチ名を `feature/menu-bar-compact-submenu` へ修正し、GitHub 向けの lowercase / kebab-case 運用を `AGENTS.md` に明文化した。
+- 2026-03-08 21:10 JST に `xcodebuild test -scheme Tunnelas -project Tunnelas.xcodeproj -destination 'platform=macOS'` を実行し、16 テストが成功した。
